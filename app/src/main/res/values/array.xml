@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="department">
+        <item>select your department</item>
+        <item>engineering</item>
+        <item>computer</item>
+        <item>social</item>
+        <item>media</item>
+        <item>economics</item>
+        <item>translation</item>
+    </string-array>
+
+</resources>
