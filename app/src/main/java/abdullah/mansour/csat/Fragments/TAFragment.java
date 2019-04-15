@@ -422,7 +422,7 @@ public class TAFragment extends Fragment
 
     public static class PHDViewHolder extends RecyclerView.ViewHolder
     {
-        TextView doctor_name,doctor_dep;
+        TextView doctor_name;
         MaterialRippleLayout doctor_details;
         Button view_profile_btn;
 
@@ -431,7 +431,6 @@ public class TAFragment extends Fragment
             super(itemView);
 
             doctor_name = itemView.findViewById(R.id.doctor_fullname);
-            doctor_dep = itemView.findViewById(R.id.doctor_department);
             doctor_details = itemView.findViewById(R.id.details_btn);
             view_profile_btn = itemView.findViewById(R.id.view_profile_btn);
         }
@@ -439,7 +438,6 @@ public class TAFragment extends Fragment
         void BindPlaces(final TAModel phdModel)
         {
             doctor_name.setText(phdModel.getFullname());
-            doctor_dep.setText("Computer Science");
         }
     }
 

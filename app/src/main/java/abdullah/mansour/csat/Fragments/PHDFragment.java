@@ -22,6 +22,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,14 +30,18 @@ import android.widget.Toast;
 import com.balysv.materialripple.MaterialRippleLayout;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 import com.victor.loading.rotate.RotateLoading;
 
 import abdullah.mansour.csat.DetailsActivity;
 import abdullah.mansour.csat.Models.PHDModel;
+import abdullah.mansour.csat.Models.ReviewModel;
 import abdullah.mansour.csat.R;
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -65,8 +70,8 @@ public class PHDFragment extends Fragment
 
     RotateLoading rotateLoading;
 
-    final static String EXTRA_PHD_KEY = "phd_key";
-    final static String EXTRA_PHD_ID = "phd_id";
+    public final static String EXTRA_PHD_KEY = "phd_key";
+    public final static String EXTRA_PHD_ID = "phd_id";
 
     @Nullable
     @Override
@@ -126,6 +131,8 @@ public class PHDFragment extends Fragment
 
                 holder.BindPlaces(model);
 
+                holder.setRating(key);
+
                 holder.doctor_details.setOnClickListener(new View.OnClickListener()
                 {
                     @Override
@@ -184,6 +191,8 @@ public class PHDFragment extends Fragment
                 final String key = getRef(position).getKey();
 
                 holder.BindPlaces(model);
+
+                holder.setRating(key);
 
                 holder.doctor_details.setOnClickListener(new View.OnClickListener()
                 {
@@ -424,24 +433,56 @@ public class PHDFragment extends Fragment
 
     public static class PHDViewHolder extends RecyclerView.ViewHolder
     {
-        TextView doctor_name,doctor_dep;
+        TextView doctor_name;
         MaterialRippleLayout doctor_details;
         Button view_profile_btn;
+        RatingBar ratingBar;
+
+        float rate = 0.0f;
 
         PHDViewHolder(View itemView)
         {
             super(itemView);
 
             doctor_name = itemView.findViewById(R.id.doctor_fullname);
-            doctor_dep = itemView.findViewById(R.id.doctor_department);
             doctor_details = itemView.findViewById(R.id.details_btn);
             view_profile_btn = itemView.findViewById(R.id.view_profile_btn);
+            ratingBar = itemView.findViewById(R.id.ratingbar);
         }
 
         void BindPlaces(final PHDModel phdModel)
         {
             doctor_name.setText(phdModel.getFullname());
-            doctor_dep.setText("Computer Science");
+        }
+
+        void setRating(String key)
+        {
+            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+            databaseReference.keepSynced(true);
+
+            databaseReference.child("Reviews").child(key).addValueEventListener(
+                    new ValueEventListener()
+                    {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot)
+                        {
+                            // Get user value
+                            rate = 0;
+                            for (DataSnapshot snapshot : dataSnapshot.getChildren())
+                            {
+                                ReviewModel review = snapshot.getValue(ReviewModel.class);
+                                rate = rate + review.getRate();
+                            }
+                            float rate2 = rate / dataSnapshot.getChildrenCount();
+                            ratingBar.setRating(rate2);
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError)
+                        {
+
+                        }
+                    });
         }
     }
 

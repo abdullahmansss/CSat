@@ -12,82 +12,71 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        android:padding="10dp"
         >
 
-        <android.support.v7.widget.CardView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardCornerRadius="10dp"
-            app:cardElevation="5dp"
-            app:cardUseCompatPadding="true"
-            android:foreground="?android:attr/selectableItemBackground"
+            android:orientation="horizontal"
             >
 
-            <com.balysv.materialripple.MaterialRippleLayout
-                android:id="@+id/details_btn"
-                android:layout_width="match_parent"
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/doctor_profile_picture"
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+                android:layout_weight="1"
+                android:src="@drawable/teacher"
+                android:layout_marginRight="20dp"
+                />
+
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                style="@style/RippleStyleGrey"
+                android:layout_weight="2"
+                android:orientation="vertical"
+                android:layout_gravity="center_vertical"
                 >
 
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/doctor_fullname"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="10dp"
-                    >
+                    android:text="Sami Hameed"
+                    android:textColor="#3D3D3D"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    />
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        >
+                <RatingBar
+                    android:id="@+id/ratingbar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:numStars="5"
+                    style="?android:attr/ratingBarStyleSmall"
+                    android:layout_marginBottom="15dp"
+                    android:progressTint="#FFD700"
+                    />
 
-                        <de.hdodenhof.circleimageview.CircleImageView
-                            android:id="@+id/doctor_profile_picture"
-                            android:layout_width="0dp"
-                            android:layout_height="60dp"
-                            android:layout_weight="1"
-                            android:src="@drawable/teacher"
-                            android:layout_marginRight="20dp"
-                            />
+            </LinearLayout>
 
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="2"
-                            android:orientation="vertical"
-                            android:layout_gravity="center_vertical"
-                            >
+        </LinearLayout>
 
-                            <TextView
-                                android:id="@+id/doctor_fullname"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Sami Hameed"
-                                android:textColor="#3D3D3D"
-                                android:textStyle="bold"
-                                android:textSize="16sp"
-                                />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"
+            android:layout_marginTop="10dp"
+            />
 
-                            <TextView
-                                android:id="@+id/doctor_specialty"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Computer Science"
-                                android:textSize="14sp"
-                                android:textColor="#808080"
-                                />
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:listitem="@layout/review_item"
+            >
 
-                        </LinearLayout>
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-            </com.balysv.materialripple.MaterialRippleLayout>
-
-        </android.support.v7.widget.CardView>
+        </android.support.v7.widget.RecyclerView>
 
     </LinearLayout>
 
